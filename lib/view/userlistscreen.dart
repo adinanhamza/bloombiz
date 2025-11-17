@@ -4,8 +4,6 @@ import 'package:flutter_application_1/view/widgets/infowidget.dart';
 import 'package:flutter_application_1/viewmodel/userlistview.dart';
 import 'package:provider/provider.dart';
 
-
-
 class UserListScreen extends StatelessWidget {
   const UserListScreen({super.key});
 
@@ -14,13 +12,10 @@ class UserListScreen extends StatelessWidget {
     final vm = context.watch<UserListViewModel>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Users'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Users'), centerTitle: true),
       body: Column(
         children: [
-          // Search
+      
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: TextField(
@@ -37,13 +32,16 @@ class UserListScreen extends StatelessWidget {
               ),
             ),
           ),
+
           Expanded(
             child: Builder(
               builder: (_) {
+              
                 if (vm.isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
+               
                 if (vm.errorMessage.isNotEmpty && vm.users.isEmpty) {
                   return ErrorWithRetry(
                     message: vm.errorMessage,
@@ -51,16 +49,20 @@ class UserListScreen extends StatelessWidget {
                   );
                 }
 
-                if (vm.users.isEmpty) {
+                if (vm.filtered.isEmpty) {
                   return const Center(child: Text('No users found'));
                 }
 
                 return ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  itemCount: vm.users.length,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  itemCount: vm.filtered.length,
                   separatorBuilder: (_, __) => const SizedBox(height: 8),
                   itemBuilder: (context, index) {
-                    final user = vm.users[index];
+                    final user = vm.filtered[index]; 
+
                     return Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -80,7 +82,10 @@ class UserListScreen extends StatelessWidget {
                             const SizedBox(height: 2),
                             Row(
                               children: [
-                                const Icon(Icons.location_on_outlined, size: 14),
+                                const Icon(
+                                  Icons.location_on_outlined,
+                                  size: 14,
+                                ),
                                 const SizedBox(width: 4),
                                 Text(user.city),
                               ],

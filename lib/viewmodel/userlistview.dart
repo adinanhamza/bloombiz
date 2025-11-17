@@ -11,9 +11,7 @@ class UserListViewModel extends ChangeNotifier {
   List<User> filtered = [];
 
   bool isLoading = false;
-
   String errorMessage = '';
-
   String searchQuery = '';
 
   Future<void> loadUsers() async {
@@ -37,6 +35,7 @@ class UserListViewModel extends ChangeNotifier {
       filtered = List.from(users);
     } else {
       final q = searchQuery.toLowerCase();
+
       filtered = users.where((user) {
         return user.fullName.toLowerCase().contains(q) ||
             user.email.toLowerCase().contains(q) ||
